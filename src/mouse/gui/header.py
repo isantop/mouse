@@ -33,5 +33,10 @@ class Header(Gtk.HeaderBar):
         self.refresh_button.connect('clicked', lambda x: self.webview.reload())
         self.pack_start(self.refresh_button)
 
+        self.firefox_button = Gtk.Button.new_from_icon_name('firefox')
+        self.pack_end(self.firefox_button)
+
         self.url_bar = URLBar(self.webview)
         self.set_title_widget(self.url_bar)
+
+    
