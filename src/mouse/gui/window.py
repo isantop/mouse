@@ -25,6 +25,7 @@ class MouseWindow(Gtk.ApplicationWindow):
         self.webview.show()
 
         header = Header(self.webview)
+        self.urlbar = header.url_bar
         self.set_title(app_info['name'])
         self.set_default_size(1200, 800)
         self.set_titlebar(header)

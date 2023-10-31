@@ -33,11 +33,18 @@ class MouseApp(Adw.Application):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.connect('activate', self.on_activate)
+        self.connect('open', self.on_open)
 
     def on_activate(self, app):
         self.win = MouseWindow(APP_INFO, application=app)
         self.win.present()
     
+    def on_open(self, app:Adw.Application, files:list, hint:str, data=None):
+        new_win = MouseWindow(APP_INFO, application=app)
+        uri = files[0].get_uri()
+        new_win.webview.load_uri(uri)
+        new_win.present()
+    
 def run_mouse():
-    app = MouseApp(application_id="ro.santopiet.Mouse")
+    app = MouseApp(application_id="ro.santopiet.Mouse", flags=Gio.ApplicationFlags.HANDLES_OPEN)
     app.run(sys.argv)
