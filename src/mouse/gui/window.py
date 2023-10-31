@@ -8,9 +8,14 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 Mouse - The anony-mouse, privacy focused browser view.
 """
 
-import gi
-
 from gi.repository import Gtk
 
+from .header import Header
+
 class MouseWindow(Gtk.ApplicationWindow):
-    pass
+    def __init__(self, app_info:dict, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        header = Header()
+        self.set_title(app_info['name'])
+        self.set_default_size(1200, 800)
+        self.set_titlebar(header)

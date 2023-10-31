@@ -8,29 +8,35 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 Mouse - The anony-mouse, privacy focused browser view.
 """
 
-import gi
+import gi, sys
 
 gi.require_versions({
     'Gtk': '4.0',
     'Gio': '2.0',
+    'Adw': '1',
 })
 
 from .gui.window import MouseWindow
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, Gio, Adw
+
+from .gui.window import MouseWindow
 
 VERSION = '0.0.1'
 
-def make_window(app, data=None):
-    # window = MouseWindow.new(app)
-    window = Gtk.ApplicationWindow.new(app)
-    window.present()
+APP_INFO:dict = {
+    'name': 'Mouse Browser',
+    'version': VERSION,
+}
 
+class MouseApp(Adw.Application):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.connect('activate', self.on_activate)
+
+    def on_activate(self, app):
+        self.win = MouseWindow(APP_INFO, application=app)
+        self.win.present()
+    
 def run_mouse():
-    app = Gtk.Application.new(
-        'ro.santopiet.mouse', 
-        Gio.ApplicationFlags.DEFAULT_FLAGS
-    )
-
-    app.connect('activate', make_window)
-
-    app.run(None)
+    app = MouseApp(application_id="ro.santopiet.Mouse")
+    app.run(sys.argv)
