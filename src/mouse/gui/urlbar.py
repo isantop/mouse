@@ -39,7 +39,7 @@ class URLBar(Gtk.Entry):
             if not '.' in uri:
                 search_term_lst = uri.split()
                 search_term = '+'.join(search_term_lst)
-                uri = f'https://www.google.com/search?channel=ftr&client=firefox-b-1-d&q={search_term}'
+                uri = f'https://duckduckgo.com/?t=h_&q={search_term}&ia=mouse-browser'
             else:
                 uri = f'https://{uri}'
         
