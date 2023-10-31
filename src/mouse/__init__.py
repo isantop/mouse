@@ -14,6 +14,7 @@ gi.require_versions({
     'Gtk': '4.0',
     'Gio': '2.0',
     'Adw': '1',
+    'WebKit': '6.0',
 })
 
 from .gui.window import MouseWindow
