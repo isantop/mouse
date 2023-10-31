@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mouse_browser"
+dynamic = ['version']
+authors = [
+  { name="Ian Santopietro", email="isantop@gmail.com" },
+]
+description = "A basic web browser intended for use as a 'pre-browser' page."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Environment :: X11 Applications :: Gnome",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Natural Language :: English",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Internet :: WWW/HTTP :: Browsers",
+    "Typing :: Stubs Only"
+]
+
+[project.scripts]
+mouse-browser = "mouse:run_mouse"
+
+[tool.setuptools.packages.find]
+# All the following settings are optional:
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "mouse.VERSION"}
+
+[project.urls]
+"Homepage" = "https://github.com/isantop/mouse"
+"Bug Tracker" = "htthttps://github.com/isantop/mouse/issues"
