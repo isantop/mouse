@@ -46,6 +46,7 @@ class MouseWindow(Gtk.ApplicationWindow):
         self.web_box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 0)
         self.set_child(self.web_box)
         self.web_box.append(self.webview)
+        self.urlbar.sync_ui()
 
     def open_in_firefox(self, button, data=None):
         """This is placeholder, but gets the basic idea fully functional"""

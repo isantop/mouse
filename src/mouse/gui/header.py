@@ -36,7 +36,7 @@ class Header(Gtk.HeaderBar):
         self.firefox_button = Gtk.Button.new_from_icon_name('firefox')
         self.pack_end(self.firefox_button)
 
-        self.url_bar = URLBar(self.webview)
+        self.url_bar = URLBar(self.webview, self)
         self.set_title_widget(self.url_bar)
 
     

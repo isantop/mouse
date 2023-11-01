@@ -11,13 +11,14 @@ Mouse - The anony-mouse, privacy focused browser view.
 from gi.repository import Gtk
 
 class URLBar(Gtk.Entry):
-    def __init__(self, webview, *args, **kwargs):
+    def __init__(self, webview, header, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.webview = webview
         self.set_icon_from_icon_name(
             Gtk.EntryIconPosition.SECONDARY,
             'go-last-symbolic'
         )
+        self.header = header
         self.set_icon_sensitive(Gtk.EntryIconPosition.SECONDARY, True)
         self.connect('activate', self.load_uri)
         self.connect('icon-release', self.icon_clicked)
@@ -34,7 +35,15 @@ class URLBar(Gtk.Entry):
         self.set_progress_fraction(progress)
         if self.get_progress_fraction() == 1.0:
             self.set_progress_fraction(0.0)
+        self.sync_ui()
     
+    def sync_ui(self):
+        self.header.back_button.set_sensitive(
+            self.webview.can_go_back()
+        )
+        self.header.forward_button.set_sensitive(
+            self.webview.can_go_forward()
+        )
 
     def set_uri_match(self, web_view, resource, request):
         self.set_text(self.webview.props.uri)
