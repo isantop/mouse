@@ -22,9 +22,20 @@ class URLBar(Gtk.Entry):
         self.connect('activate', self.load_uri)
         self.connect('icon-release', self.icon_clicked)
         self.webview.connect('resource-load-started', self.set_uri_match)
+        self.webview.connect('load-changed', self.update_progress)
+        for i in ['notify::uri', 'notify::estimated-load-progress', 'notify::is-loading']:
+            self.webview.connect(i, self.update_progress)
 
         self.set_hexpand(True)
     
+    def update_progress(self, webview, data=None):
+        progress = self.webview.get_estimated_load_progress()
+        print(f'Loading progress: {progress}')
+        self.set_progress_fraction(progress)
+        if self.get_progress_fraction() == 1.0:
+            self.set_progress_fraction(0.0)
+    
+
     def set_uri_match(self, web_view, resource, request):
         self.set_text(self.webview.props.uri)
     

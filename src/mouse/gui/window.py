@@ -10,10 +10,21 @@ Mouse - The anony-mouse, privacy focused browser view.
 
 import subprocess
 
-from gi.repository import Gtk, WebKit
+from gi.repository import Gtk, WebKit, Gio
 
 from .header import Header
 from .webview import WebView
+
+def get_firefox_appinfo() -> Gio.AppInfo:
+    appinfos:list = Gio.AppInfo.get_all_for_type("x-scheme-handler/http")
+    for app in appinfos:
+        if 'firefox' in app.get_executable():
+            return app
+    return Gio.AppInfo.create_from_commandline(
+        'firefox',
+        None,
+        Gio.AppInfoCreateFlags.NONE
+    )
 
 class MouseWindow(Gtk.ApplicationWindow):
     def __init__(self, app_info:dict, *args, **kwargs):
@@ -30,7 +41,6 @@ class MouseWindow(Gtk.ApplicationWindow):
         self.set_default_size(1200, 800)
         self.set_titlebar(header)
 
-
         header.firefox_button.connect('clicked', self.open_in_firefox)
         
         self.web_box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 0)
@@ -40,8 +50,13 @@ class MouseWindow(Gtk.ApplicationWindow):
     def open_in_firefox(self, button, data=None):
         """This is placeholder, but gets the basic idea fully functional"""
         uri = self.webview.props.uri
-        subprocess.run(['firefox', '--new-tab', uri])
+        print(f'Loading {uri} in Firefox')
+        self.webview.stop_loading()
+        firefox_app = get_firefox_appinfo()
+        uri_file = Gio.File.new_for_uri(uri)
+        firefox_app.launch([uri_file], None)
         self.destroy()
+        
     
     def _test_load_uri(self, button, data=None):
         print('clicked')
